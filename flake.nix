@@ -106,5 +106,27 @@
       doCheck = true;
     };
 
+    
+    packages.x86_64-linux.static-globals = packages.x86_64-linux.program-markers.override (rec {
+      pname = "static-globals";
+      version = "0.0.2";
+      src = pkgs.fetchFromGitHub {
+        owner = "DeadCodeProductions";
+        repo = "static-globals";
+        rev = "v${version}";
+        sha256 = "sha256-HntkJxiid7Jn0MXSR3sgslMOpNJbtj9WRKy3WW0xig4=";
+      };
+
+      buildPhase = ''
+        make
+        cd ..
+        cp build/bin/make-globals-static python_src/static_globals
+        cp setup.py.in setup.py
+        sed -i "s~THIS_DIR~$(pwd)~g" setup.py
+        pipBuildPhase
+      '';
+    })
+
+    ;
   };
 }
