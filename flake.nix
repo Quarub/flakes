@@ -125,8 +125,14 @@
         sed -i "s~THIS_DIR~$(pwd)~g" setup.py
         pipBuildPhase
       '';
-    })
+    });
 
-    ;
+    templates.python-difftesting = {
+      description = "Template for a python with diopter etc.";
+      path = ./diff;
+    };
+
   };
+
+
 }
